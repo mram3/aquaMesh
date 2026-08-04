@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+
+echo "==============================="
+echo "Running aquaMesh Test Suite"
+echo "==============================="
+
+compile_and_run() {
+    echo
+    echo "--------------------------------"
+    echo "Running $1"
+    echo "--------------------------------"
+
+    g++ tests/$1.cpp src/*.cpp \
+        -Iinclude \
+        -std=c++17 \
+        -o tests/$1
+
+    ./tests/$1
+}
+
+compile_and_run testGeometry
+compile_and_run testCartesianMesh
+compile_and_run testMultiBlock
+compile_and_run testTransformation
+compile_and_run testCoordinateMapping
+
+echo
+echo "==============================="
+echo "All tests completed."
+echo "==============================="
