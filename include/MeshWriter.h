@@ -4,7 +4,7 @@
 #include <string>
 
 #include "Mesh.h"
-
+#include "Inflation.h"
 class MeshWriter
 {
 
@@ -13,6 +13,12 @@ public:
     static void writeVTK
     (
         const Mesh& mesh,
+        const std::string& filename
+    );
+
+    static void writeVTK
+    (
+        const Inflation& inflation,
         const std::string& filename
     );
 

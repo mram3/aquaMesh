@@ -5,6 +5,7 @@
 //
 // Cartesian Mesh Generation
 //
+//Compiling Instructions: g++ tests/testCartesianMesh.cpp src/*.cpp -Iinclude -std=c++17 -o testCartesianMesh && ./testCartesianMesh
 //------------------------------------------------------------//
 
 #include <iostream>

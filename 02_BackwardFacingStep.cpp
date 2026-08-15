@@ -46,8 +46,8 @@ int main()
 
     Point p4(4,10.0,-2.0);
     Point p5(5,50.0,-2.0);
-    Point p6(6,10.0,0.0);
-    Point p7(7,50.0,0.0);
+    Point p6(6,50.0,0.0);
+    Point p7(7,10.0,0.0);
 
     Line l4(4,&p4,&p5);
     Line l5(5,&p5,&p6);
@@ -67,8 +67,8 @@ int main()
 
     Point p8(8,10.0,0.0);
     Point p9(9,50.0,0.0);
-    Point p10(10,10.0,4.0);
-    Point p11(11,50.0,4.0);
+    Point p10(10,50.0,4.0);
+    Point p11(11,10.0,4.0);
 
     Line l8(8,&p8,&p9);
     Line l9(9,&p9,&p10);

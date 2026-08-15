@@ -16,6 +16,8 @@
 
 using namespace std;
 
+constexpr double PI = 3.1415926535897932384626433832795;
+
 //------------------------------------------------------------//
 // Translation
 //------------------------------------------------------------//
@@ -62,7 +64,7 @@ void MeshTransformation::rotate
     double angleDeg
 )
 {
-    double theta = angleDeg * M_PI / 180.0;
+    double theta = angleDeg * PI / 180.0;
 
     double c = cos(theta);
     double s = sin(theta);

@@ -1,0 +1,84 @@
+#ifndef INFLATION_H
+#define INFLATION_H
+
+#include <vector>
+
+#include "Point.h"
+#include "Cell.h"
+#include "Surface.h"
+
+class Inflation{
+
+public:
+    //--------------------------------------------------
+    // Data
+    //--------------------------------------------------
+
+    std::vector<Point> nodes;
+    std::vector<Cell> cells;
+
+    double xmin;
+    double xmax;
+
+    double ymin;
+    double ymax;
+
+    int Nx;
+    int Ny;
+
+    double h0;
+    double r;
+    int Nlayer;
+
+    double dx;
+    double dy;
+
+    //--------------------------------------------------
+    // Constructor
+    //--------------------------------------------------
+
+    Inflation();
+
+    //--------------------------------------------------
+    // Mesh Generation
+    //--------------------------------------------------
+
+    void generateCartesian
+    (
+        const Surface& surface,
+        int Nx_,
+        int Ny_
+    );
+
+    void generateInflation
+    (
+        const Surface& surface,
+        double h0_,
+        double r_,
+        int Nlayer_,
+        int Nx_
+    );
+
+    //--------------------------------------------------
+    // Utility Functions
+    //--------------------------------------------------
+
+    int getNumberOfNodes() const;
+
+    int getNumberOfCells() const;
+
+protected:
+
+    void computeBoundingBox(const Surface& surface);
+    //void computeBoundingBox();
+
+private:
+
+    void generateInflatedNodes();
+    void generateInflatedCells();
+    void computeCoarseNodes();
+    void writeNodes();
+    void print();
+};
+
+#endif
