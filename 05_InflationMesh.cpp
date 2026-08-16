@@ -54,28 +54,35 @@ int main()
 
     Inflation mesh;
 
-    mesh.generateInflation(
-        rectangle,
-        0.12, //h0
-        1.3,  //r
-        15,   //Layer(Ny)
-        20    //Nx
-    );
+    try{
+        mesh.generateInflation(
+            rectangle,
+            0.12, //h0
+            1.0,  //r
+            15,   //Layer(Ny)
+            20    //Nx
+        );
 
     //------------------------------------------------------------
     // Step 3 : Print Mesh Statistics
     //------------------------------------------------------------
 
-    MeshStatistics::print(mesh);
+        MeshStatistics::print(mesh);
 
     //------------------------------------------------------------
     // Step 4 : Export Mesh
     //------------------------------------------------------------
 
-    MeshWriter::writeVTK
-    (
-        mesh,
-        "Homework.vtk"
-    );
+        MeshWriter::writeVTK
+        (
+            mesh,
+            "Homework1.vtk"
+        );
+    }
+    catch(const std::invalid_argument& err){
+        std::cerr << "\n[PROGRAM TERMINATED]\n" << err.what() << std::endl;
+        return 1;
+    }
+    
     return 0;
 }

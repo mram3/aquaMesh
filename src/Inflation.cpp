@@ -3,6 +3,8 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <stdexcept> // for throwing errors
+#include <string>
 
 using namespace std;
 
@@ -96,10 +98,38 @@ void Inflation::writeNodes(){
 
 void Inflation::generateInflatedNodes(){
 
-    nodes.clear();
-    computeCoarseNodes();
-    nodes.reserve((Nlayer+Ny+1)*(Nx+1));
-    writeNodes();
+    if(r > 1){
+        nodes.clear();
+        computeCoarseNodes();
+        nodes.reserve((Nlayer+Ny+1)*(Nx+1));
+        writeNodes();
+    }
+
+    else if(r == 1){
+        nodes.clear();
+        Ny = Nlayer;
+        Nlayer = 0;
+        dy = ymax/Ny;
+        nodes.reserve((Nx+1)*(Ny+1));
+        
+        int id = 0;
+
+        for(int j=0;j<=Ny;j++)
+        {
+            double y = ymin + j*dy;
+            
+            for(int i=0;i<=Nx;i++)
+            {
+                double x = xmin + i*dx;
+                nodes.emplace_back(id,x,y);
+                id++;
+            }
+        }
+    }
+
+    else{
+        throw invalid_argument("Error: r must be 1.0 or greater. You provided: " + to_string(r));
+    }
 
 }
 

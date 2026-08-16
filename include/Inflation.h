@@ -43,13 +43,6 @@ public:
     // Mesh Generation
     //--------------------------------------------------
 
-    void generateCartesian
-    (
-        const Surface& surface,
-        int Nx_,
-        int Ny_
-    );
-
     void generateInflation
     (
         const Surface& surface,
@@ -78,7 +71,6 @@ private:
     void generateInflatedCells();
     void computeCoarseNodes();
     void writeNodes();
-    void print();
 };
 
 #endif
