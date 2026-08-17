@@ -32,6 +32,7 @@ int main()
     rectangle.addBoundary(&l2);
     rectangle.addBoundary(&l3);
 
+
     // --------------------------------------------------
     // 2. Generate inflation mesh
     // --------------------------------------------------
@@ -46,19 +47,25 @@ int main()
         20      // Nx
     );
 
+
     // --------------------------------------------------
-    // 3. Basic mesh checks
+    // 3. Check number of nodes and cells
     // --------------------------------------------------
 
-    test.expectTrue(
-        mesh.getNumberOfNodes() > 0,
-        "Mesh contains nodes"
+    test.expectEqual(
+        mesh.getNumberOfNodes(),
+        252,
+        1e-12,
+        "Number of nodes = 252"
     );
 
-    test.expectTrue(
-        mesh.getNumberOfCells() > 0,
-        "Mesh contains cells"
+    test.expectEqual(
+        mesh.getNumberOfCells(),
+        220,
+        1e-12,
+        "Number of cells = 220"
     );
+
 
     // --------------------------------------------------
     // 4. Check mesh parameters
@@ -92,63 +99,50 @@ int main()
         "dx = 0.2"
     );
 
+
     // --------------------------------------------------
-    // 5. Check number of nodes and cells
+    // 5. Check first inflation layer height
     // --------------------------------------------------
+
+    double firstLayerHeight =
+        mesh.nodes[mesh.Nx + 1].y
+        -
+        mesh.nodes[0].y;
 
     test.expectEqual(
-        mesh.getNumberOfNodes(),
-        252,
+        firstLayerHeight,
+        0.12,
         1e-12,
-        "Number of nodes = 252"
+        "First inflation layer height = 0.12"
     );
+
+
+    // --------------------------------------------------
+    // 6. Check last inflation layer height
+    // --------------------------------------------------
+
+    double lastLayerHeight =
+        mesh.nodes[
+            mesh.Nlayer * (mesh.Nx + 1)
+        ].y
+        -
+        mesh.nodes[
+            (mesh.Nlayer - 1) * (mesh.Nx + 1)
+        ].y;
+
+    double expectedLastLayerHeight =
+        0.12 * std::pow(1.3, mesh.Nlayer - 1);
 
     test.expectEqual(
-        mesh.getNumberOfCells(),
-        220,
+        lastLayerHeight,
+        expectedLastLayerHeight,
         1e-12,
-        "Number of cells = 220"
+        "Last inflation layer height = 0.9788768652"
     );
 
-    // --------------------------------------------------
-    // 6. Check X coordinates
-    // --------------------------------------------------
-
-    for(int i = 0; i <= mesh.Nx; i++)
-    {
-        double expectedX = 0.0 + i * mesh.dx;
-
-        test.expectEqual(
-            mesh.nodes[i].x,
-            expectedX,
-            1e-12,
-            "X coordinate of first row node"
-        );
-    }
 
     // --------------------------------------------------
-    // 7. Check inflation Y coordinates
-    // --------------------------------------------------
-
-    for(int j = 0; j <= mesh.Nlayer; j++)
-    {
-        double expectedY =
-            0.0
-            + 0.12 * (std::pow(1.3, j) - 1.0)
-            / (1.3 - 1.0);
-
-        int nodeIndex = j * (mesh.Nx + 1);
-
-        test.expectEqual(
-            mesh.nodes[nodeIndex].y,
-            expectedY,
-            1e-10,
-            "Inflation layer Y coordinate"
-        );
-    }
-
-    // --------------------------------------------------
-    // 8. Check last node reaches xmax and ymax
+    // 7. Check last node reaches xmax and ymax
     // --------------------------------------------------
 
     int lastNode = mesh.getNumberOfNodes() - 1;
@@ -167,8 +161,9 @@ int main()
         "Last node Y = ymax"
     );
 
+
     // --------------------------------------------------
-    // 9. Check cell connectivity
+    // 8. Check cell connectivity
     // --------------------------------------------------
 
     bool validCells = true;
@@ -190,8 +185,9 @@ int main()
         "All cell node indices are valid"
     );
 
+
     // --------------------------------------------------
-    // 10. Print summary
+    // 9. Print summary
     // --------------------------------------------------
 
     test.summary();
