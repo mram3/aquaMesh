@@ -5,9 +5,10 @@
 //
 // Prints useful information about a mesh.
 //
-// Works for both:
+// Works for:
 //   1. Structured Cartesian Mesh
 //   2. Multi Block Mesh
+//   3. Inflated Mesh
 //
 //------------------------------------------------------------//
 
@@ -209,6 +210,12 @@ void MeshStatistics::print(const Inflation& mesh)
              << endl;
 
         cout << left << setw(25)
+             << "first layer thickness"
+             << " : "
+             << mesh.h0
+             << endl;  
+
+        cout << left << setw(25)
              << "dy"
              << " : "
              << mesh.dy
@@ -312,6 +319,12 @@ void MeshStatistics::print(const Bump& mesh)
              << "dx"
              << " : "
              << mesh.dx
+             << endl;
+
+        cout << left << setw(25)
+             << "first layer thickness"
+             << " : "
+             << mesh.h0
              << endl;
 
         cout << left << setw(25)
