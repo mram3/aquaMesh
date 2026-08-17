@@ -58,7 +58,7 @@ int main()
         mesh.generateInflation(
             rectangle,
             0.12, //h0
-            1.0,  //r
+            1.3,  //r
             15,   //Layer(Ny)
             20    //Nx
         );
