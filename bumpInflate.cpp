@@ -76,7 +76,7 @@ int main()
         MeshWriter::writeVTK
         (
             mesh,
-            "Homework1.vtk"
+            "Homework2.vtk"
         );
     }
     catch(const std::invalid_argument& err){
