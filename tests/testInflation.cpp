@@ -1,3 +1,4 @@
+// Compiling Instruction: g++ tests/testInflation.cpp src/*.cpp -Iinclude -std=c++17 -o testInflation && ./testInflation
 #include "Test.h"
 
 #include "Point.h"
