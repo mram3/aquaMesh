@@ -5,6 +5,7 @@
 
 #include "Mesh.h"
 #include "Inflation.h"
+#include "Bump.h"
 class MeshWriter
 {
 
@@ -22,6 +23,11 @@ public:
         const std::string& filename
     );
 
+    static void writeVTK
+    (
+        const Bump& bump,
+        const std::string& filename
+    );
 };
 
 #endif

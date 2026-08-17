@@ -1,5 +1,5 @@
 /*
-Compiling Instruction: g++ 05_InflationMesh.cpp src/*.cpp -Iinclude -std=c++17 -o inflationMesh && ./inflationMesh
+Compiling Instruction: g++ bumpInflate.cpp src/*.cpp -Iinclude -std=c++17 -o bumpInflate && ./bumpInflate
 */
 #include <iostream>
 
@@ -7,14 +7,14 @@ Compiling Instruction: g++ 05_InflationMesh.cpp src/*.cpp -Iinclude -std=c++17 -
 #include "Line.h"
 #include "Surface.h"
 
-#include "Inflation.h"
+#include "Bump.h"
 #include "MeshStatistics.h"
 #include "MeshWriter.h"
 
 int main()
 {
     std::cout << "==========================================" << std::endl;
-    std::cout << " Homework 1.1 : Inflated Mesh Generation" << std::endl;
+    std::cout << " Homework 1.1 : Inflated Mesh Generation  " << std::endl;
     std::cout << "==========================================" << std::endl;
 
     //------------------------------------------------------------
@@ -49,17 +49,17 @@ int main()
     rectangle.print();
 
     //------------------------------------------------------------
-    // Step 2 : Generate Cartesian Mesh
+    // Step 2 : Generate Bump Inflated Mesh
     //------------------------------------------------------------
-
-    Inflation mesh;
+    
+    Bump mesh;
 
     try{
         mesh.generateInflation(
             rectangle,
             0.12, //h0
-            1.3,  //r
-            15,   //Layer(Ny)
+            1.2,  //r
+            8,   //Layer(Ny)
             20    //Nx
         );
 
