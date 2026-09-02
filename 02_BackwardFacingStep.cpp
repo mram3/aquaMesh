@@ -77,10 +77,10 @@ int main()
 
     Surface block3Surface(2);
 
-    block2Surface.addBoundary(&l8);
-    block2Surface.addBoundary(&l9);
-    block2Surface.addBoundary(&l10);
-    block2Surface.addBoundary(&l11);
+    block3Surface.addBoundary(&l8);
+    block3Surface.addBoundary(&l9);
+    block3Surface.addBoundary(&l10);
+    block3Surface.addBoundary(&l11);
 
     //------------------------------------------------------------
     // Create Blocks
