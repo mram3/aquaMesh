@@ -100,7 +100,7 @@ int main()
     // Polar Mapping
     //------------------------------------------------------------
 
-    Mesh polar = original;
+   /* Mesh polar = original;
 
     CoordinateMapping::polar
     (
@@ -113,7 +113,24 @@ int main()
     (
         polar,
         "mapping_polar.vtk"
+    );*/
+
+    Mesh PipeBend = original;
+
+    CoordinateMapping::PipeBend
+    (
+        PipeBend,
+        original.xmin,
+        original.xmax
     );
+
+    MeshWriter::writeVTK
+    (
+        PipeBend,
+        "mapping_pipebend.vtk"
+    );
+
+
 
     std::cout << "\nGenerated Files\n";
     std::cout << "---------------\n";
@@ -121,6 +138,7 @@ int main()
     std::cout << "mapping_trapezoid.vtk\n";
     std::cout << "mapping_wave.vtk\n";
     std::cout << "mapping_polar.vtk\n";
+    std::cout << "mapping_pipebend.vtk\n";
 
     return 0;
 }

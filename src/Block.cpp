@@ -33,3 +33,15 @@ void Block::generateMesh()
         Ny
     );
 }
+
+
+void Block::generatePipeBendMesh()
+{
+    mesh.generatePipeBend
+    (
+        surface,
+        Nx,
+        Ny
+    );
+}
+

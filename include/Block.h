@@ -30,6 +30,8 @@ public:
 
     void generateMesh();
 
+    void generatePipeBendMesh();
+
 };
 
 #endif

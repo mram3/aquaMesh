@@ -97,3 +97,30 @@ void CoordinateMapping::polar
             r*sin(theta);
     }
 }
+
+void CoordinateMapping::PipeBend
+(
+    Mesh& mesh,
+    double R_Inner,
+    double R_Outer
+)
+{
+    double xmin = mesh.xmin;
+    double xmax = mesh.xmax;
+
+    for(auto& node : mesh.nodes)
+    {
+        double zeta= (node.y-mesh.ymin)/(mesh.ymax-mesh.ymin);
+        double eta = (node.x-xmin)/(xmax-xmin);
+
+        double r = R_Inner + eta*(R_Outer-R_Inner);
+
+    double theta =
+            (3*acos(0.0))+zeta*acos(0.0);
+        node.x =
+            r*cos(theta);
+
+        node.y =
+            r*sin(theta);
+    }
+}

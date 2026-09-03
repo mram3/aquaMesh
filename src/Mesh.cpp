@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -175,6 +176,109 @@ void Mesh::generateCartesian
          << cells.size()
          << endl;
 }
+
+
+//------------------------------------------------------------//
+// Generate Pipe Bend Mesh
+//------------------------------------------------------------//
+
+//------------------------------------------------------------//
+// Generate Pipe Bend Mesh
+//------------------------------------------------------------//
+
+void Mesh::generatePipeBend
+(
+    const Surface& surface,
+    int Nx_,
+    int Ny_
+)
+{
+    //--------------------------------------------------------
+    // Generate the original Cartesian mesh
+    //--------------------------------------------------------
+
+    Nx = Nx_;
+    Ny = Ny_;
+
+    computeBoundingBox(surface);
+
+    generateNodes();
+
+    generateCells();
+
+    //--------------------------------------------------------
+    // Store original radial limits
+    //--------------------------------------------------------
+
+    double R_Inner = xmin;
+    double R_Outer = xmax;
+
+    //--------------------------------------------------------
+    // Apply Pipe Bend Transformation
+    //--------------------------------------------------------
+
+    for(auto& node : nodes)
+    {
+        double eta =
+            (node.x-xmin) /
+            (xmax-xmin);
+
+        double zeta =
+            (node.y-ymin) /
+            (ymax-ymin);
+
+        //----------------------------------------------------
+        // Radial coordinate
+        //----------------------------------------------------
+
+        double r =
+            R_Inner +
+            eta*(R_Outer-R_Inner);
+
+        //----------------------------------------------------
+        // Angular coordinate
+        //----------------------------------------------------
+
+        double theta =
+            3.0*acos(0.0)
+            +
+            zeta*acos(0.0);
+
+        //----------------------------------------------------
+        // Convert to Cartesian coordinates
+        //----------------------------------------------------
+
+        node.x =
+            r*cos(theta);
+
+        node.y =
+            r*sin(theta);
+    }
+
+    //--------------------------------------------------------
+    // Update bounding box after transformation
+    //--------------------------------------------------------
+
+    computeBoundingBox();
+
+    //--------------------------------------------------------
+    // Output
+    //--------------------------------------------------------
+
+    cout << "\n";
+    cout << "Pipe Bend Mesh Generated\n";
+    cout << "------------------------\n";
+
+    cout << "Nodes : "
+         << nodes.size()
+         << endl;
+
+    cout << "Cells : "
+         << cells.size()
+         << endl;
+}
+
+
 //------------------------------------------------------------//
 // Number of Nodes
 //------------------------------------------------------------//
@@ -193,6 +297,7 @@ int Mesh::getNumberOfCells() const
 {
     return static_cast<int>(cells.size());
 }
+
 
 //------------------------------------------------------------//
 // Compute Bounding Box from Mesh Nodes

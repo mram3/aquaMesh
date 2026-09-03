@@ -35,7 +35,24 @@ void MultiBlockMesh::generate()
         // Generate block mesh
         //--------------------------------------------
 
-        block.generateMesh();
+        if(block.id == 1)
+        {
+        cout << "\nGenerating PIPE BEND for Block "
+         << block.id << endl;
+
+        block.generatePipeBendMesh();
+
+        cout << "First node after transformation: "
+         << block.mesh.nodes[0].x << " , "
+         << block.mesh.nodes[0].y
+         << endl;
+        }
+
+            
+        else
+         {
+            block.generateMesh();
+            }
 
         //--------------------------------------------
         // Store node offset
