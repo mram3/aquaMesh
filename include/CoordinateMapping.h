@@ -44,6 +44,15 @@ public:
         double rOuter
     );
 
+    //------------------------------------------------------------
+    // Triangular Mapping
+    //------------------------------------------------------------
+
+    static void triangle
+    (
+        Mesh &mesh,
+        double h
+    );
 };
 
 #endif

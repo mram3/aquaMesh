@@ -1,6 +1,3 @@
-/*
-Compiler instruction: g++ 02_BackwardFacingStep.cpp src/*.cpp -Iinclude -std=c++17 -o BackwardFacingStep && ./BackwardFacingStep
-*/
 #include <iostream>
 
 #include "Point.h"
@@ -13,19 +10,15 @@ Compiler instruction: g++ 02_BackwardFacingStep.cpp src/*.cpp -Iinclude -std=c++
 #include "MeshStatistics.h"
 #include "MeshWriter.h"
 
-int main()
-{
-    std::cout << "==========================================" << std::endl;
-    std::cout << " Example 02 : BackwardFacingStep" << std::endl;
-    std::cout << "==========================================" << std::endl;
+int main(){
 
     //------------------------------------------------------------
     // Block 1 Geometry
     //------------------------------------------------------------
 
     Point p0(0,0.0,0.0);
-    Point p1(1,10.0,0.0);
-    Point p2(2,10.0,4.0);
+    Point p1(1,5.0,0.0);
+    Point p2(2,5.0,4.0);
     Point p3(3,0.0,4.0);
 
     Line l0(0,&p0,&p1);
@@ -44,10 +37,10 @@ int main()
     // Block 2 Geometry
     //------------------------------------------------------------
 
-    Point p4(4,10.0,-2.0);
-    Point p5(5,50.0,-2.0);
-    Point p6(6,50.0,0.0);
-    Point p7(7,10.0,0.0);
+    Point p4(4,4.0,0.0);
+    Point p5(5,6.0,0.0);
+    Point p6(6,6.0,5.0);
+    Point p7(7,5.0,4.0);
 
     Line l4(4,&p4,&p5);
     Line l5(5,&p5,&p6);
@@ -60,27 +53,6 @@ int main()
     block2Surface.addBoundary(&l5);
     block2Surface.addBoundary(&l6);
     block2Surface.addBoundary(&l7);
-
-    //------------------------------------------------------------
-    // Block 3 Geometry
-    //------------------------------------------------------------
-
-    Point p8(8,10.0,0.0);
-    Point p9(9,50.0,0.0);
-    Point p10(10,50.0,4.0);
-    Point p11(11,10.0,4.0);
-
-    Line l8(8,&p8,&p9);
-    Line l9(9,&p9,&p10);
-    Line l10(10,&p10,&p11);
-    Line l11(11,&p11,&p8);
-
-    Surface block3Surface(2);
-
-    block3Surface.addBoundary(&l8);
-    block3Surface.addBoundary(&l9);
-    block3Surface.addBoundary(&l10);
-    block3Surface.addBoundary(&l11);
 
     //------------------------------------------------------------
     // Create Blocks
@@ -98,16 +70,15 @@ int main()
     (
         1,
         block2Surface,
-        100,
+        20,
         10
     );
-    Block block3
-    (
-        2,
-        block2Surface,
-        100,
-        10
-    );
+
+    Mesh originalMesh;
+
+    Mesh triangleBlock = originalMesh;
+
+    
     //------------------------------------------------------------
     // Assemble Multi Block Mesh
     //------------------------------------------------------------
@@ -116,7 +87,6 @@ int main()
 
     mesh.addBlock(block1);
     mesh.addBlock(block2);
-    mesh.addBlock(block3);
 
     mesh.generate();
 
@@ -133,7 +103,7 @@ int main()
     MeshWriter::writeVTK
     (
         mesh,
-        "backwardFacingStep.vtk"
+        "twoBlockDiffuser.vtk"
     );
 
     return 0;

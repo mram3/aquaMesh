@@ -11,7 +11,7 @@ Compiler instruction: g++ 04_CoordinateMapping.cpp src/*.cpp -Iinclude -std=c++1
 #include "Mesh.h"
 #include "MeshWriter.h"
 #include "MeshStatistics.h"
-
+#include "MeshTransformation.h"
 #include "CoordinateMapping.h"
 
 int main()
