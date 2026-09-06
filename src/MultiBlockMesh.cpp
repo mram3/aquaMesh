@@ -35,25 +35,82 @@ void MultiBlockMesh::generate()
         // Generate block mesh
         //--------------------------------------------
 
-        if(block.id == 1)
+        block.generateMesh();
+
+        //--------------------------------------------
+        // Store node offset
+        //--------------------------------------------
+
+        int nodeOffset = globalNodeID;
+
+        //--------------------------------------------
+        // Copy nodes
+        //--------------------------------------------
+
+        for(auto node : block.mesh.nodes)
         {
-        cout << "\nGenerating PIPE BEND for Block "
-         << block.id << endl;
+            node.id = globalNodeID++;
 
-        block.generatePipeBendMesh();
-
-        cout << "First node after transformation: "
-         << block.mesh.nodes[0].x << " , "
-         << block.mesh.nodes[0].y
-         << endl;
+            nodes.push_back(node);
         }
 
-            
-        else
-         {
-            block.generateMesh();
+        //--------------------------------------------
+        // Copy cells
+        //--------------------------------------------
+
+        for(auto cell : block.mesh.cells)
+        {
+            cell.id = globalCellID++;
+
+            for(auto& nodeID : cell.nodeIDs)
+            {
+                nodeID += nodeOffset;
             }
 
+            cells.push_back(cell);
+        }
+    }
+    //----------------------------------------------------
+    // Compute Global Bounding Box
+    //----------------------------------------------------
+
+    computeBoundingBox();
+
+    cout << "\n";
+    cout << "=====================================\n";
+    cout << "Multi Block Mesh Generated\n";
+    cout << "=====================================\n";
+
+    cout << "Blocks : "
+         << blocks.size()
+         << endl;
+
+    cout << "Nodes : "
+         << nodes.size()
+         << endl;
+
+    cout << "Cells : "
+         << cells.size()
+         << endl;
+}
+
+void MultiBlockMesh::generateFromMesh(){
+    //----------------------------------------------------
+    // Clear existing mesh
+    //----------------------------------------------------
+
+    nodes.clear();
+    cells.clear();
+
+    int globalNodeID = 0;
+    int globalCellID = 0;
+
+    //----------------------------------------------------
+    // Loop over all blocks
+    //----------------------------------------------------
+
+    for(auto& block : blocks)
+    {
         //--------------------------------------------
         // Store node offset
         //--------------------------------------------

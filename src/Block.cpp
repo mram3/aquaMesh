@@ -24,20 +24,20 @@ Block::Block
     Ny = Ny_;
 }
 
+Block::Block
+(
+    int id_,
+    const Mesh& mesh_
+)
+{
+    id = id_;
+
+    mesh = mesh_;
+}
+
 void Block::generateMesh()
 {
     mesh.generateCartesian
-    (
-        surface,
-        Nx,
-        Ny
-    );
-}
-
-
-void Block::generatePipeBendMesh()
-{
-    mesh.generatePipeBend
     (
         surface,
         Nx,

@@ -10,7 +10,8 @@
 *.lib
 *.exe
 *.out
-
+CoordinateMapping
+pipebend
 #--------------------------------------------------
 # Generated mesh/output files
 #--------------------------------------------------

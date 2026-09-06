@@ -45,25 +45,13 @@ public:
     );
 
     //------------------------------------------------------------
-    // Triangular Mapping
-    //------------------------------------------------------------
-
-    static void triangle
-    (
-        Mesh &mesh,
-        double h
-    );
-
-
-
-    //------------------------------------------------------------
     // PipeBend Mapping
     //------------------------------------------------------------
     static void PipeBend
     (
         Mesh& mesh,
-        double R_Inner,
-        double R_Outer
+        double rInner,
+        double rOuter
     );
 };
 

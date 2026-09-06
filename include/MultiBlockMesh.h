@@ -18,6 +18,7 @@ public:
 
     void generate();
 
+    void generateFromMesh();
 };
 
 #endif

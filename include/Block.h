@@ -28,9 +28,13 @@ public:
         int Ny_
     );
 
-    void generateMesh();
+    Block
+    (
+        int id_,
+        const Mesh& mesh_
+    );
 
-    void generatePipeBendMesh();
+    void generateMesh();
 
 };
 
