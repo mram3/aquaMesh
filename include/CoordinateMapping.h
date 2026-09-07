@@ -50,6 +50,7 @@ public:
     static void PipeBend
     (
         Mesh& mesh,
+        double angle,
         double rInner,
         double rOuter
     );

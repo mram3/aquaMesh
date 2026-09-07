@@ -2,6 +2,7 @@
 Compiling Instructions : g++ pipebend.cpp src/*.cpp -Iinclude -std=c++17 -o pipebend && ./pipebend
 */
 #include <iostream>
+#include <cmath>
 
 #include "Point.h"
 #include "Line.h"
@@ -23,13 +24,20 @@ void inlet(Mesh& mesh, double L, double rInner, double rOuter){
     }
 }
 
-void outlet(Mesh& mesh, double L, double rInner, double rOuter){
+void outlet(Mesh& mesh, double L, double angle, double rInner, double rOuter){
 
     for(auto& node : mesh.nodes){
+        double c = cos(angle);
+        double s = sin(angle);
         double xi = node.x;
         double eta = node.y;
-        node.y = -(rInner + (rOuter-rInner)*eta);
-        node.x = -L * xi;
+
+        xi     = L * xi;
+        eta    = (rOuter - rInner) * eta;
+        node.x = c*xi - s*eta;
+        node.y = s*xi + c*eta;
+        node.x = node.x - L*c + rOuter*c;
+        node.y = node.y - L*s - rOuter*s;
     }
 }
 
@@ -39,12 +47,13 @@ int main(){
     // User Inputs
     //------------------------------------------------------------
 
+    double angle  = acos(-1.0)/4;
     double rInner = 5.0; //Pipe inner radius
     double rOuter = 10.0;//Pipe outer radius
     double lI     = 5.0; //input pipe length
     double lO     = 5.0; //output pipe length
-    int Nr        = 200;  //radial node
-    int Na        = 100;  //axial node
+    int Nr        = 20;  //radial node
+    int Na        = 10;  //axial node
     int Nl        = 10;  //lateral node for pipes
     //---------------------------------------------------------------------
     // Blocks Geometry (Creating three xi eta domains (0<=xi<=1, 0<=eta<=1)
@@ -129,6 +138,7 @@ int main(){
     CoordinateMapping::PipeBend
     (
         pipemesh,
+        angle,
         rInner,
         rOuter
     );
@@ -136,7 +146,7 @@ int main(){
     Mesh inletmesh = xi_eta_2;
     Mesh outletmesh = xi_eta_3;
     inlet(inletmesh, lI, rInner, rOuter);
-    outlet(outletmesh, lO, rInner, rOuter);
+    outlet(outletmesh, lO, angle, rInner, rOuter);
 
     //------------------------------------------------------------
     // Add blocks with a id

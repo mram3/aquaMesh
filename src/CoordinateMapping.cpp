@@ -101,6 +101,7 @@ void CoordinateMapping::polar
 void CoordinateMapping::PipeBend
 (
     Mesh& mesh,
+    double angle,
     double rInner,
     double rOuter
 )
@@ -115,7 +116,7 @@ void CoordinateMapping::PipeBend
             eta*(rOuter-rInner);
 
         double theta =
-            xi*acos(-1.0)/2;
+            xi*angle;
 
         node.x =
             r*cos(theta);
