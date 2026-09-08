@@ -54,6 +54,22 @@ public:
         double rInner,
         double rOuter
     );
+
+    static void inlet
+    (
+        Mesh& mesh,
+        double length,
+        double rInner,
+        double rOuter
+    );
+
+    static void outlet(
+        Mesh& mesh, 
+        double length,
+        double angle,
+        double rInner,
+        double rOuter
+    );
 };
 
 #endif

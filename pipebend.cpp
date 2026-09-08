@@ -14,32 +14,7 @@ Compiling Instructions : g++ pipebend.cpp src/*.cpp -Iinclude -std=c++17 -o pipe
 #include "MeshWriter.h"
 #include "MeshQuality.h"
 
-void inlet(Mesh& mesh, double L, double rInner, double rOuter){
-
-    for(auto& node : mesh.nodes){
-        double xi = node.x;
-        double eta = node.y;
-        node.x = rInner + (rOuter-rInner)*xi;
-        node.y = L * eta;
-    }
-}
-
-void outlet(Mesh& mesh, double L, double angle, double rInner, double rOuter){
-
-    for(auto& node : mesh.nodes){
-        double c = cos(angle);
-        double s = sin(angle);
-        double xi = node.x;
-        double eta = node.y;
-
-        xi     = L * xi;
-        eta    = (rOuter - rInner) * eta;
-        node.x = c*xi - s*eta;
-        node.y = s*xi + c*eta;
-        node.x = node.x - L*c + rOuter*c;
-        node.y = node.y - L*s - rOuter*s;
-    }
-}
+using namespace std;
 
 int main(){
 
@@ -145,8 +120,14 @@ int main(){
     //transforming the rest of the blocks to inlet and outlet
     Mesh inletmesh = xi_eta_2;
     Mesh outletmesh = xi_eta_3;
-    inlet(inletmesh, lI, rInner, rOuter);
-    outlet(outletmesh, lO, angle, rInner, rOuter);
+    CoordinateMapping::inlet
+    (
+        inletmesh, lI, rInner, rOuter
+    );
+    CoordinateMapping::outlet
+    (
+        outletmesh, lO, angle, rInner, rOuter
+    );
 
     //------------------------------------------------------------
     // Add blocks with a id
@@ -179,15 +160,42 @@ int main(){
 
     auto results = MeshQuality::evaluate(mesh,5.0);
     MeshQuality::report(results);
+    
     //------------------------------------------------------------
-    // Export
+    // Check and Export
     //------------------------------------------------------------
 
-    MeshWriter::writeVTK
-    (
-        mesh,
-        "pipebendMultiBlock.vtk"
-    );
+    bool hasInverted = MeshQuality::hasInvertedCells(results);
+    bool hasLowQuality = MeshQuality::hasLowQualityCells(results);
+    if(
+        hasInverted || hasLowQuality
+    )
+    {
+        if(hasInverted && !hasLowQuality){
+            cout << "Transformation produces inverted cells.\n";
+        }
+
+        else if(hasLowQuality && !hasInverted){
+            cout << "Transformation produces low quality cells\n";
+        }
+
+        else{
+            cout << "Transformation produces both inverted and low quality mesh.\n";
+        }
+
+        cout << "Mesh generation rejected\n";
+        return -1;
+    }
+
+    else{
+        MeshWriter::writeVTK
+        (
+            mesh,
+            "pipebendMultiBlock.vtk"
+        );
+
+        cout << "Mesh generation successfull";
+    }
 
     return 0;
 }

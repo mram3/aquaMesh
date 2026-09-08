@@ -123,5 +123,47 @@ void CoordinateMapping::PipeBend
 
         node.y =
             -r*sin(theta);
+    }    
+}
+
+void CoordinateMapping::inlet
+(
+    Mesh& mesh, 
+    double L, 
+    double rInner, 
+    double rOuter
+)
+{
+
+    for(auto& node : mesh.nodes){
+        double xi = node.x;
+        double eta = node.y;
+        node.x = rInner + (rOuter-rInner)*xi;
+        node.y = L * eta;
+    }
+}
+
+void CoordinateMapping::outlet
+(
+    Mesh& mesh, 
+    double L, 
+    double angle, 
+    double rInner, 
+    double rOuter
+)
+{
+
+    for(auto& node : mesh.nodes){
+        double c = cos(angle);
+        double s = sin(angle);
+        double xi = node.x;
+        double eta = node.y;
+
+        xi     = L * xi;
+        eta    = (rOuter - rInner) * eta;
+        node.x = c*xi - s*eta;
+        node.y = s*xi + c*eta;
+        node.x = node.x - L*c + rOuter*c;
+        node.y = node.y - L*s - rOuter*s;
     }
 }
