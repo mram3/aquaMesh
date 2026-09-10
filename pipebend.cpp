@@ -28,7 +28,7 @@ int main(){
     double lI     = 5.0; //input pipe length
     double lO     = 5.0; //output pipe length
     int Nr        = 20;  //radial node
-    int Na        = 10;  //axial node
+    int Na        = 15;  //axial node
     int Nl        = 10;  //lateral node for pipes
     //---------------------------------------------------------------------
     // Blocks Geometry (Creating three xi eta domains (0<=xi<=1, 0<=eta<=1)
