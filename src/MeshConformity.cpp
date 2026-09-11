@@ -1,4 +1,5 @@
 #include "MeshConformity.h"
+#include <algorithm>
 
 std::vector<const Point*> MeshConformity::getBoundary
 (
@@ -40,15 +41,15 @@ bool MeshConformity::checkInterface
 
     if (edge1.size() != edge2.size()) return false;
 
-    for (const Point* p1 : edge1) {
-        bool foundMatch = false;
-        for (const Point* p2 : edge2) {
-            if (std::abs(p1->x - p2->x) < 1e-6 && std::abs(p1->y - p2->y) < 1e-6) {
-                foundMatch = true;
-                break;
-            }
+    for(const Point* p1 : edge1){
+
+        auto isMatch = [p1](const Point* p2) {
+            return std::abs(p1->x - p2->x) < 1e-6 && std::abs(p1->y - p2->y) < 1e-6;
+        };
+
+        if(std::find_if(edge2.begin(), edge2.end(), isMatch) == edge2.end()){
+            return false;
         }
-        if (!foundMatch) return false;
     }
 
     return true;

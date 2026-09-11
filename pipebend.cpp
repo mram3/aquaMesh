@@ -13,6 +13,7 @@ Compiling Instructions : g++ pipebend.cpp src/*.cpp -Iinclude -std=c++17 -o pipe
 #include "MeshStatistics.h"
 #include "MeshWriter.h"
 #include "MeshQuality.h"
+#include "MeshConformity.h"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ int main(){
     // User Inputs
     //------------------------------------------------------------
 
-    double angle  = acos(-1.0)/4;
+    double angle  = acos(-1.0);
     double rInner = 5.0; //Pipe inner radius
     double rOuter = 10.0;//Pipe outer radius
     double lI     = 5.0; //input pipe length
@@ -128,6 +129,20 @@ int main(){
     (
         outletmesh, lO, angle, rInner, rOuter
     );
+
+    //------------------------------------------------------------
+    // Check if the transformations yielded conformal blocks
+    //------------------------------------------------------------
+
+    bool isConformal = true;
+
+    isConformal &= MeshConformity::checkConformity(inletmesh, pipemesh);
+    isConformal &= MeshConformity::checkConformity(pipemesh, outletmesh);
+
+    if(!isConformal){
+        cout << "Meshes are not conformal. Transformations are rejected\n";
+        return -1;
+    }
 
     //------------------------------------------------------------
     // Add blocks with a id

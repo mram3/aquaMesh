@@ -143,27 +143,21 @@ void CoordinateMapping::inlet
     }
 }
 
-void CoordinateMapping::outlet
-(
-    Mesh& mesh, 
-    double L, 
-    double angle, 
-    double rInner, 
-    double rOuter
-)
+void CoordinateMapping::outlet(Mesh& mesh, double L, double angle, double rInner, double rOuter)
 {
-
     for(auto& node : mesh.nodes){
-        double c = cos(angle);
-        double s = sin(angle);
         double xi = node.x;
         double eta = node.y;
 
-        xi     = L * xi;
-        eta    = (rOuter - rInner) * eta;
-        node.x = c*xi - s*eta;
-        node.y = s*xi + c*eta;
-        node.x = node.x - L*c + rOuter*c;
-        node.y = node.y - L*s - rOuter*s;
+        double r = rInner + eta * (rOuter - rInner);
+
+        double anchor_x = r * cos(angle);
+        double anchor_y = -r * sin(angle);
+
+        double tan_x = -sin(angle);
+        double tan_y = -cos(angle);
+
+        node.x = anchor_x + (L * xi * tan_x);
+        node.y = anchor_y + (L * xi * tan_y);
     }
 }
