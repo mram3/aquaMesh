@@ -31,6 +31,7 @@ int main(){
     int Nr        = 20;  //radial node
     int Na        = 15;  //axial node
     int Nl        = 10;  //lateral node for pipes
+
     //---------------------------------------------------------------------
     // Blocks Geometry (Creating three xi eta domains (0<=xi<=1, 0<=eta<=1)
     //---------------------------------------------------------------------
@@ -134,12 +135,12 @@ int main(){
     // Check if the transformations yielded conformal blocks
     //------------------------------------------------------------
 
-    bool isConformal = true;
-
-    isConformal &= MeshConformity::checkConformity(inletmesh, pipemesh);
-    isConformal &= MeshConformity::checkConformity(pipemesh, outletmesh);
-
-    if(!isConformal){
+    if
+    (
+        !MeshConformity::checkConformity(inletmesh, pipemesh) ||
+        !MeshConformity::checkConformity(pipemesh, outletmesh)
+    )
+    {
         cout << "Meshes are not conformal. Transformations are rejected\n";
         return -1;
     }

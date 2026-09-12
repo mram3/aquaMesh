@@ -9,13 +9,15 @@
 #include "Block.h"
 #include "MultiBlockMesh.h"
 #include "CoordinateMapping.h"
-#include "MeshStatistics.h"
-#include "MeshWriter.h"
 #include "MeshQuality.h"
+#include "MeshConformity.h"
+#include "Test.h"
 
 using namespace std;
 
 int main(){
+
+    Test test;
     //xi_eta_blocks 
 
     Point p0(0,0.0,0.0);
@@ -63,7 +65,7 @@ int main(){
     xi_eta_2.generateCartesian(
         block2Surface,
         10,
-        20
+        10
     );
 
     CoordinateMapping::PipeBend(
@@ -73,5 +75,35 @@ int main(){
         10
     );
 
-    
+    CoordinateMapping::outlet(
+        xi_eta_2,
+        5,
+        acos(-1)/2,
+        5,
+        10
+    );
+
+    //testing the conformal check
+
+    test.expectTrue(
+        MeshConformity::checkConformity(xi_eta_1, xi_eta_2),
+        "Mesh Conformity Check"
+    );
+
+    //testing the Mesh Quality class
+
+    auto results = MeshQuality::evaluate(xi_eta_1, 5);
+    test.expectTrue(
+        !MeshQuality::hasInvertedCells(results),
+        "Inverted Cells Check"
+    );
+
+    test.expectTrue(
+        !MeshQuality::hasLowQualityCells(results),
+        "Low Quality Cells Check"
+    );
+
+    test.summary();
+
+    return test.success() ? 0 : 1;
 }
