@@ -18,8 +18,8 @@ using namespace std;
 int main(){
 
     Test test;
-    //xi_eta_blocks 
 
+    //xi_eta_blocks 
     Point p0(0,0.0,0.0);
     Point p1(1,1.0,0.0);
     Point p2(2,1.0,1.0);
@@ -37,23 +37,6 @@ int main(){
     block1Surface.addBoundary(&l2);
     block1Surface.addBoundary(&l3);
 
-    Point p4(4,0.0,0.0);
-    Point p5(5,1.0,0.0);
-    Point p6(6,1.0,1.0);
-    Point p7(7,0.0,1.0);
-
-    Line l4(4,&p0,&p1);
-    Line l5(5,&p1,&p2);
-    Line l6(6,&p2,&p3);
-    Line l7(7,&p3,&p0);
-
-    Surface block2Surface(1);
-
-    block2Surface.addBoundary(&l4);
-    block2Surface.addBoundary(&l5);
-    block2Surface.addBoundary(&l6);
-    block2Surface.addBoundary(&l7);
-
     Mesh xi_eta_1, xi_eta_2;
 
     xi_eta_1.generateCartesian(
@@ -63,7 +46,7 @@ int main(){
     );
 
     xi_eta_2.generateCartesian(
-        block2Surface,
+        block1Surface,
         10,
         10
     );

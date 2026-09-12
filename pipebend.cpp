@@ -53,40 +53,6 @@ int main(){
     block1Surface.addBoundary(&l2);
     block1Surface.addBoundary(&l3);
 
-    Point p4(4,0.0,0.0);
-    Point p5(5,1.0,0.0);
-    Point p6(6,1.0,1.0);
-    Point p7(7,0.0,1.0);
-
-    Line l4(4,&p0,&p1);
-    Line l5(5,&p1,&p2);
-    Line l6(6,&p2,&p3);
-    Line l7(7,&p3,&p0);
-
-    Surface block2Surface(1);
-
-    block2Surface.addBoundary(&l4);
-    block2Surface.addBoundary(&l5);
-    block2Surface.addBoundary(&l6);
-    block2Surface.addBoundary(&l7);
-
-    Point p8(8,0.0,0.0);
-    Point p9(9,1.0,0.0);
-    Point p10(10,1.0,1.0);
-    Point p11(11,0.0,1.0);
-
-    Line l8(8,&p0,&p1);
-    Line l9(9,&p1,&p2);
-    Line l10(10,&p2,&p3);
-    Line l11(11,&p3,&p0);
-
-    Surface block3Surface(2);
-
-    block3Surface.addBoundary(&l0);
-    block3Surface.addBoundary(&l1);
-    block3Surface.addBoundary(&l2);
-    block3Surface.addBoundary(&l3);
-
     //Create 3 xi eta mesh
 
     Mesh xi_eta_1, xi_eta_2, xi_eta_3;
@@ -98,13 +64,13 @@ int main(){
     );
 
     xi_eta_2.generateCartesian(
-        block2Surface,
+        block1Surface,
         Na,
         Nl
     );
 
     xi_eta_3.generateCartesian(
-        block2Surface,
+        block1Surface,
         Nl,
         Na
     );
